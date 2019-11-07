@@ -17,8 +17,8 @@ import os
 import pandas
 import time
 import datetime
-from loader import  PatentDataset, load_data_new
-from DNN.model import Net
+from loader import  PatentDataset, load_data_new, load_data_with_convert_Y
+from DNN.model import Net, Net_with_softmax
 from mxnet import autograd, gluon, init, nd
 
 
@@ -38,46 +38,38 @@ def train(opt):
 
 
 
-
-    xtrain, ytrain, xtest, ytest = load_data_new()
+    if opt.convert_y:
+        xtrain, ytrain, xtest, ytest = load_data_with_convert_Y()
+    else:
+        xtrain, ytrain, xtest, ytest = load_data_new()
 
     datasets = {}
     datasets['train'] = PatentDataset(xtrain, ytrain)
     datasets['val'] = PatentDataset(xtest, ytest)
 
     N_input = xtrain.shape[1]
+    N_output = ytrain.shape[1]
 
     dataloaders = {x: torch.utils.data.DataLoader(datasets[x], batch_size=opt.batchsize,
-                                                  shuffle=True, num_workers=4, pin_memory=True)
+                                                  shuffle=True, num_workers=8, pin_memory=True)
                    for x in ['train', 'val']}
 
     dataset_sizes = {x: len(datasets[x]) for x in ['train', 'val']}
     use_gpu = torch.cuda.is_available()
 
-    def get_net():
-        net = nn.Sequential()
-        net.add(nn.Dense(1))
-        net.initialize()
-        return net
 
-    # def log_rmse(net, features, labels):
-    #     # 将小于1的值设成1，使得取对数时数值更稳定
-    #     clipped_preds = nd.clip(net(features), 1, float('inf'))
-    #     rmse = nd.sqrt(2 * loss(clipped_preds.log(), labels.log()).mean())
-    #     return rmse.asscalar()
 
-    model = Net(N_input,1024, 1)
-    # model = get_net()
+    model =  Net_with_softmax(N_input, 1024, N_output) if opt.convert_y else Net(N_input, 1024, N_output)
 
     # if opt.model_dir and opt.train_on_save:
     #     model.load_state_dict(torch.load(opt.model_dir))
 
     model = model.double().cuda()
 
-
-    optimizer_sgd = torch.optim.SGD(model.parameters(), lr=opt.lr)  # 传入网络参数和学习率
     optimizer_adam = torch.optim.Adam(model.parameters(), lr = opt.lr)
-    loss_function = torch.nn.MSELoss()  # 最小均方误差
+
+    loss_function = torch.nn.MSELoss()
+
 
     def train_model(model, criterion, optimizer, num_epochs=25):
         for epoch in range(num_epochs):
@@ -90,7 +82,7 @@ def train(opt):
                     model.train(False)
                 running_loss = 0.0
                 totalNum = 0
-
+                true_predict = 0
                 pbar = tqdm(dataloaders[phase])
                 for inputs, labels in pbar:
                     batch_size, N = inputs.shape
@@ -105,13 +97,18 @@ def train(opt):
                             outputs = model(inputs)
                     else:
                         outputs = model(inputs)
+
+                    predict_result = np.argmax(outputs.cpu().detach().numpy(), axis = 1)
+                    ground_truth = np.argmax(labels.cpu().detach().numpy(), axis = 1)
+                    true_predict += np.where(predict_result == ground_truth)[0].shape[0]
+
                     loss = criterion(outputs, labels)
                     running_loss += loss
                     if phase == 'train':
                         loss.backward()
                         optimizer.step()
 
-                    pbar.set_description(desc='loss: {:.4f}'.format(running_loss / totalNum))
+                    pbar.set_description(desc='loss: {:.4f}, accuracy: {:.4f}'.format(running_loss * 100/totalNum, true_predict / totalNum))
         # do final operation here
         torch.save(model.state_dict(), './models/model_%s_epoch_%s.pkl' % (datetime.datetime.now().strftime("%Y_%m_%d_%H"), num_epochs))
     print(opt)

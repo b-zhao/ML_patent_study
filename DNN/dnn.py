@@ -14,14 +14,14 @@ parser.add_argument('--test_dir',default='../data/duke/pytorch',type=str, help='
 parser.add_argument('--model_dir',default='../DNN/model.pkl',type=str, help='./model_data')
 parser.add_argument('--train_on_save', action='store_true', help='use saved model training data' )
 
-parser.add_argument('--train_all', action='store_true', help='use all training data' )
+parser.add_argument('--convert_y', default=False, action='store_true', help='use converted Y' )
 
-parser.add_argument('--batchsize', default=64, type=int, help='batchsize')
+parser.add_argument('--batchsize', default=128, type=int, help='batchsize')
 parser.add_argument('--stride', default=2, type=int, help='stride')
 parser.add_argument('--erasing_p', default=0, type=float, help='Random Erasing probability, in [0,1]')
 
-parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
-parser.add_argument('--epoch', default=100, type=int, help='training epoch')
+parser.add_argument('--lr', default=0.0001, type=float, help='learning rate')
+parser.add_argument('--epoch', default=50, type=int, help='training epoch')
 
 parser.add_argument('--droprate', default=0.5, type=float, help='drop rate')
 

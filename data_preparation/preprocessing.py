@@ -7,25 +7,38 @@ import numpy as np
 
 # load data
 print("Loading data...")
+# try:
+#     if not os.path.exists('../Database_Patents_MLClass_Sample_Sep2019.csv'):
+#         cfile = pd.read_stata('../Database_Patents_MLClass_Sample_Sep2019.dta')
+#         cfile.to_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
+#     data = pd.read_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
+# except:
+#     print("Loading failed. Make sure Database_Patents_MLClass_Sample_Sep2019.dta or *.csv is in the current directory")
+#     exit(1)
+
 try:
-    if not os.path.exists('../Database_Patents_MLClass_Sample_Sep2019.csv'):
-        cfile = pd.read_stata('../Database_Patents_MLClass_Sample_Sep2019.dta')
-        cfile.to_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
-    data = pd.read_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
+    data = pd.read_csv('../data.csv')
 except:
-    print("Loading failed. Make sure Database_Patents_MLClass_Sample_Sep2019.dta or *.csv is in the current directory")
+    print(
+        "Loading failed. Make sure Database_Patents_MLClass_Sample_Sep2019.dta or *.csv is in the current directory")
     exit(1)
-    
+
+
+
 print("Total number of columns: " + str(len(data.columns)))
 print(data.columns)
 
 # drop useless columns
-data = data.drop(['Unnamed: 0', 'ABANDON_DATE', 'ABN_YEAR', 'APPMONTH',
+data = data.drop(['ABANDON_DATE', 'ABN_YEAR', 'APPMONTH',
        'APPNUM', 'APPTYPE', 'APPYEAR', 'ASGCITY', 'ASGCOUNTRY',
        'ASGSEQ', 'ASGSTATE',
        'DISPOSAL_TYPE', 'EXAMINER_ART_UNIT', 'EXAMINER_ID', 'FILING_DATE','NFCITE',
        'FILING_YEAR', 'INVCITY', 'INVSTATE', 'KIND', 'PATENT', 'RESIDENCE', 'ABN', 'DES', 'UTL', 'US',
        'CAT', 'LONE', 'USINV', 'INVCOUNT', 'SUBCLASS'], 1)
+
+data = data.drop(['AYM', 'ELAG_FLAG', 'GMONTH', 'GYEAR', 'GYM', 'PERDCAT', 'LNUMAPP', 'LNBCITE', 'LNFCITE', 'LCLAIMS', 'PRIM'], 1)
+
+
 print("Number of columns we use: " + str(len(data.columns)))
 print(data.columns)
 
@@ -107,14 +120,45 @@ col_names = np.array(data.columns)
 for col in col_names:
     data[col] = pd.to_numeric(data[col], errors='coerce')
 X = np.array(data)
+
+def convert_Y(y):
+    if y < 182:
+        return 0
+    elif y < 365:
+        return 1
+    elif y < 547:
+        return 2
+    elif y < 730:
+        return 3
+    elif y < 912:
+        return 4
+    elif y < 1095:
+        return 5
+    else:
+        return 6
+
+converter = np.vectorize(convert_Y)
+Y_conv = converter(Y)
+
+from sklearn.preprocessing import OneHotEncoder
+ohe = OneHotEncoder()
+ohe.fit(np.array(range(7)).reshape((-1, 1)))
+
+Y_conv = ohe.transform(Y_conv.reshape((-1, 1))).toarray()
+
+
+
 print("Shape of X: " + str(np.shape(X)))
 print("Shape of Y: " + str(np.shape(Y)))
+print("Shape of Y_conv: " + str(np.shape(Y_conv)))
+
 print("Whether there exists NAN in X: " + str(np.isnan(X).any()))
 
 print("Saving to X.npy, Y.npy, and col_names.npy...")
 np.save("X.npy", X)
 np.save("col_names.npy", col_names)
 np.save("Y.npy", Y)
+np.save("Y_conv.npy", Y_conv)
 
 print("Done! Use np.load(\"X.npy\") to load training data")
 
