@@ -91,23 +91,23 @@ def load_data():
 
 
 def load_data_train():
-    X = np.load('../data_preparation/X_train.npy')
-    Y = np.load('../data_preparation/Y_train.npy').reshape((-1, 1))
+    X = np.load('data_preparation/X_train.npy')
+    Y = np.load('data_preparation/Y_train.npy').reshape((-1, 1))
     x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size= 0.2, random_state=0)
     return x_train, y_train, x_test, y_test
 
 
 def load_data_test():
-    X = np.load('../data_preparation/X_test.npy')
-    Y = np.load('../data_preparation/Y_test.npy').reshape((-1, 1))
+    X = np.load('data_preparation/X_test.npy')
+    Y = np.load('data_preparation/Y_test.npy').reshape((-1, 1))
     return X, Y
 
 
 
 
 def load_data_with_convert_Y():
-    X = np.load('../data_preparation/X.npy')
-    Y = np.load('../data_preparation/Y_conv.npy')
+    X = np.load('data_preparation/X.npy')
+    Y = np.load('data_preparation/Y_conv.npy')
     x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size= 0.4, random_state=0)
     return x_train, y_train, x_test, y_test
 
