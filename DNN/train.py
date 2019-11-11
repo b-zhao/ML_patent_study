@@ -17,9 +17,11 @@ import os
 import pandas
 import time
 import datetime
-from loader import  PatentDataset, load_data_new, load_data_with_convert_Y
+from loader import  PatentDataset, load_data_train, load_data_with_convert_Y
 from DNN.model import Net, Net_with_softmax
 from mxnet import autograd, gluon, init, nd
+from sklearn.decomposition import PCA
+
 
 
 def train(opt):
@@ -41,7 +43,11 @@ def train(opt):
     if opt.convert_y:
         xtrain, ytrain, xtest, ytest = load_data_with_convert_Y()
     else:
-        xtrain, ytrain, xtest, ytest = load_data_new()
+        xtrain, ytrain, xtest, ytest = load_data_train()
+
+
+
+
 
     datasets = {}
     datasets['train'] = PatentDataset(xtrain, ytrain)
@@ -72,6 +78,11 @@ def train(opt):
 
 
     def train_model(model, criterion, optimizer, num_epochs=25):
+        train_loss = []
+        test_loss = []
+        accuracy_train = []
+        accuracy_test = []
+
         for epoch in range(num_epochs):
             print('Epoch {}/{}'.format(epoch, num_epochs - 1))
             for phase in ['train', 'val']:
@@ -98,9 +109,10 @@ def train(opt):
                     else:
                         outputs = model(inputs)
 
-                    predict_result = np.argmax(outputs.cpu().detach().numpy(), axis = 1)
-                    ground_truth = np.argmax(labels.cpu().detach().numpy(), axis = 1)
-                    true_predict += np.where(predict_result == ground_truth)[0].shape[0]
+                    predict_result = outputs.cpu().detach().numpy().reshape(-1)
+                    ground_truth = labels.cpu().detach().numpy().reshape(-1)
+
+                    true_predict += np.where( abs(predict_result - ground_truth) < 100)[0].shape[0]
 
                     loss = criterion(outputs, labels)
                     running_loss += loss
@@ -108,7 +120,24 @@ def train(opt):
                         loss.backward()
                         optimizer.step()
 
-                    pbar.set_description(desc='loss: {:.4f}, accuracy: {:.4f}'.format(running_loss * 100/totalNum, true_predict / totalNum))
+                    pbar.set_description(desc='loss: {:.4f}, accuracy: {:.4f}'.format(running_loss /totalNum, true_predict / totalNum))
+                if phase == 'train':
+                    train_loss.append(loss.cpu().detach().numpy() / totalNum)
+                    accuracy_train.append(true_predict / totalNum)
+                else:
+                    test_loss.append(loss.cpu().detach().numpy() / totalNum)
+                    accuracy_test.append(true_predict / totalNum)
+
+        train_loss = np.array(train_loss)
+        test_loss = np.array(test_loss)
+        accuracy_train = np.array(accuracy_train)
+        accuracy_test = np.array(accuracy_test)
+
+        np.save('train_loss.npy', train_loss)
+        np.save('test_loss.npy', test_loss)
+        np.save('train_accuracy.npy', accuracy_train)
+        np.save('test_accuracy.npy', accuracy_test)
+
         # do final operation here
         torch.save(model.state_dict(), './models/model_%s_epoch_%s.pkl' % (datetime.datetime.now().strftime("%Y_%m_%d_%H"), num_epochs))
     print(opt)
