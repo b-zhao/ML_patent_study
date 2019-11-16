@@ -4,7 +4,7 @@ import os
 from sklearn.ensemble import IsolationForest as IF
 
 class IsolationForest:
-    def __init__(self, fileNameX = '../data_preparation/X.npy', fileNameY = '../data_preparation/Y.npy', trainSubset = 50, trainCount  = 10, threshold = 0.6, columnStart = 0, columnEnd = 13):
+    def __init__(self, fileNameX = 'data_preparation/X.npy', fileNameY = 'data_preparation/Y.npy', trainSubset = 50, trainCount  = 10, threshold = 0.6, columnStart = 0, columnEnd = 13):
         print('Load X.npy')
         self.X = np.load(fileNameX)
         print('X shape:', self.X.shape)
