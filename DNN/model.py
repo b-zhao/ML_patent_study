@@ -8,17 +8,17 @@ class Net(torch.nn.Module):
     def __init__(self, n_feature, n_hidden, n_output):
         super(Net, self).__init__()
 
-        self.hidden = nn.Linear(n_feature, n_hidden)
-        self.sigmoid = torch.sigmoid
-        self.predict1 = nn.Linear(n_hidden, n_hidden)
-        self.predict2 = nn.Linear(n_hidden, n_output)
+        self.hidden = nn.Linear(n_feature, n_output)
+        #self.sigmoid = torch.relu
+        #self.predict1 = nn.Linear(n_hidden, n_hidden)
+        #self.predict2 = nn.Linear(n_hidden, n_output)
 
     def forward(self, x):
         x = self.hidden(x)
-        x = self.sigmoid(x)
-        x = self.predict1(x)
-        x = self.sigmoid(x)
-        x=  self.predict2(x)
+        #x = self.sigmoid(x)
+        #x = self.predict1(x)
+        #x = self.sigmoid(x)
+        #x=  self.predict2(x)
         return x
 
 

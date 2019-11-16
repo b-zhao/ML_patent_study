@@ -1,9 +1,8 @@
 import argparse
 import torch
-import torch.nn as nn
-from torch.optim import lr_scheduler
-from torch.autograd import Variable
-from torchvision import datasets, transforms
+
+from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from torch.utils import data as Data
 import torch.backends.cudnn as cudnn
 import matplotlib
@@ -45,6 +44,14 @@ def train(opt):
     else:
         xtrain, ytrain, xtest, ytest = load_data_train()
 
+    if opt.PCA:
+        pca = PCA(n_components=50)
+        xtrain = pca.fit(xtrain).transform(xtrain)
+        xtest = pca.fit(xtest).transform(xtest)
+    elif opt.LDA:
+        lda = LinearDiscriminantAnalysis(n_components= 50)
+        xtrain = lda.fit(xtrain, ytrain).transform(xtrain)
+        xtest = lda.fit(xtest, ytest).transform(xtest)
 
 
 
@@ -65,10 +72,10 @@ def train(opt):
 
 
 
-    model =  Net_with_softmax(N_input, 1024, N_output) if opt.convert_y else Net(N_input, 1024, N_output)
+    model =  Net_with_softmax(N_input, 512, N_output) if opt.convert_y else Net(N_input, 512, N_output)
 
-    # if opt.model_dir and opt.train_on_save:
-    #     model.load_state_dict(torch.load(opt.model_dir))
+    if opt.model_dir and opt.train_on_save:
+        model.load_state_dict(torch.load(opt.model_dir))
 
     model = model.double().cuda()
 
@@ -83,9 +90,18 @@ def train(opt):
         accuracy_train = []
         accuracy_test = []
 
+        time_str = datetime.datetime.now().strftime("%Y_%m_%d_%H")
+        model_root = './models/%s' % (time_str)
+        if not os.path.exists(model_root):
+            os.mkdir(model_root)
+
+
         for epoch in range(num_epochs):
             print('Epoch {}/{}'.format(epoch, num_epochs - 1))
-            for phase in ['train', 'val']:
+            phases = ['train', 'val']  #if (epoch + 1) % 10 == 0 else ['train']
+
+
+            for phase in phases:
 
                 if phase == 'train':
                     model.train(True)
@@ -112,33 +128,35 @@ def train(opt):
                     predict_result = outputs.cpu().detach().numpy().reshape(-1)
                     ground_truth = labels.cpu().detach().numpy().reshape(-1)
 
-                    true_predict += np.where( abs(predict_result - ground_truth) < 100)[0].shape[0]
+                    true_predict += np.where( abs(predict_result - ground_truth) < 180)[0].shape[0]
 
                     loss = criterion(outputs, labels)
-                    running_loss += loss
+                    running_loss += loss.item()
                     if phase == 'train':
                         loss.backward()
                         optimizer.step()
 
-                    pbar.set_description(desc='loss: {:.4f}, accuracy: {:.4f}'.format(running_loss /totalNum, true_predict / totalNum))
+                    pbar.set_description(desc='loss: {:.4f}, accuracy: {:.4f}'.format(running_loss * opt.batchsize /totalNum, true_predict / totalNum))
                 if phase == 'train':
-                    train_loss.append(loss.cpu().detach().numpy() / totalNum)
+                    train_loss.append(running_loss * opt.batchsize / totalNum)
                     accuracy_train.append(true_predict / totalNum)
                 else:
-                    test_loss.append(loss.cpu().detach().numpy() / totalNum)
+                    test_loss.append(running_loss * opt.batchsize/ totalNum)
                     accuracy_test.append(true_predict / totalNum)
+
+
+            torch.save(model.state_dict(), model_root + '/model_epoch_%s.pkl' % (epoch))
 
         train_loss = np.array(train_loss)
         test_loss = np.array(test_loss)
         accuracy_train = np.array(accuracy_train)
         accuracy_test = np.array(accuracy_test)
 
-        np.save('train_loss.npy', train_loss)
-        np.save('test_loss.npy', test_loss)
-        np.save('train_accuracy.npy', accuracy_train)
-        np.save('test_accuracy.npy', accuracy_test)
+        np.save(model_root + '/train_loss.npy', train_loss)
+        np.save(model_root + '/test_loss.npy', test_loss)
+        np.save(model_root + '/train_accuracy.npy', accuracy_train)
+        np.save(model_root + '/test_accuracy.npy', accuracy_test)
 
         # do final operation here
-        torch.save(model.state_dict(), './models/model_%s_epoch_%s.pkl' % (datetime.datetime.now().strftime("%Y_%m_%d_%H"), num_epochs))
     print(opt)
     train_model(model, loss_function, optimizer_adam, num_epochs=opt.epoch)

@@ -7,21 +7,21 @@ import numpy as np
 
 # load data
 print("Loading data...")
-try:
-    if not os.path.exists('../Database_Patents_MLClass_Sample_Sep2019.csv'):
-        cfile = pd.read_stata('../Database_Patents_MLClass_Sample_Sep2019.dta')
-        cfile.to_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
-    data = pd.read_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
-except:
-    print("Loading failed. Make sure Database_Patents_MLClass_Sample_Sep2019.dta or *.csv is in the current directory")
-    exit(1)
+#try:
+#    if not os.path.exists('../Database_Patents_MLClass_Sample_Sep2019.csv'):
+#        cfile = pd.read_stata('../Database_Patents_MLClass_Sample_Sep2019.dta')
+#        cfile.to_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
+#    data = pd.read_csv('../Database_Patents_MLClass_Sample_Sep2019.csv')
+#except:
+#    print("Loading failed. Make sure Database_Patents_MLClass_Sample_Sep2019.dta or *.csv is in the current directory")
+#    exit(1)
 
-# try:
-#     data = pd.read_csv('../data.csv')
-# except:
-#     print(
-#         "Loading failed. Make sure Database_Patents_MLClass_Sample_Sep2019.dta or *.csv is in the current directory")
-#     exit(1)
+try:
+    data = pd.read_csv('../data.csv')
+except:
+    print(
+        "Loading failed. Make sure Database_Patents_MLClass_Sample_Sep2019.dta or *.csv is in the current directory")
+    exit(1)
 
 
 
@@ -36,8 +36,8 @@ data = data.drop(['ABANDON_DATE', 'ABN_YEAR', 'APPMONTH',
        'FILING_YEAR', 'INVCITY', 'INVSTATE', 'KIND', 'PATENT', 'RESIDENCE', 'ABN', 'DES', 'UTL', 'US',
        'CAT', 'LONE', 'USINV', 'INVCOUNT', 'SUBCLASS'], 1)
 
-# data = data.drop(['AYM', 'ELAG_FLAG', 'GMONTH', 'GYEAR', 'GYM', 'PERDCAT', 'LNUMAPP', 'LNBCITE', 'LNFCITE', 'LCLAIMS', 'PRIM'], 1)
-data = data.drop(['Unnamed: 0'], 1)
+data = data.drop(['AYM', 'ELAG_FLAG', 'GMONTH', 'GYEAR', 'GYM', 'PERDCAT', 'LNUMAPP', 'LNBCITE', 'LNFCITE', 'LCLAIMS', 'PRIM'], 1)
+#data = data.drop(['Unnamed: 0'], 1)
 
 print("Number of columns we use: " + str(len(data.columns)))
 print(data.columns)

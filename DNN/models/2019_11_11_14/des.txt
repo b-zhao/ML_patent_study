@@ -1,0 +1,4 @@
+Model: input, 128, 128, 1
+
+data: full
+

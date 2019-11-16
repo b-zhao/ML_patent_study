@@ -6,7 +6,7 @@
 
 
 # Model
-# *.pkl
+*.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

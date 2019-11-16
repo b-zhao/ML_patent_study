@@ -10,8 +10,7 @@ from loader import load_data_train, load_data_test
 xtrain, ytrain, xtest, ytest = load_data_train()
 xevaluation, yevaluation = load_data_test()
 
-avg = np.var(ytest)
-print(avg)
+
 
 
 column_name = np.load('data_preparation/col_names.npy')
@@ -33,21 +32,6 @@ def reg(max_depth, alpha, n_estimators, learning_rate):
               'learning_rate':learning_rate, 'RMSE': rmse, 'abs': np.average(abs_error)}
     test_report.append(record)
 
-
-
-
-    # feature importance
-    important_index = np.where(xg_reg.feature_importances_ > 0.01)
-    print('--------important index------------')
-    print(important_index)
-
-    most_important = column_name[np.argmax(xg_reg.feature_importances_)]
-    print("most important:", most_important)
-    print('-----------import column name -----------')
-    print(column_name[important_index])
-    # plot
-    pyplot.bar(range(len(xg_reg.feature_importances_)), xg_reg.feature_importances_)
-    pyplot.show()
 
 m_d = [20, 25, 30,35,40]
 alpha = [1]
