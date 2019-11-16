@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # plot loss curve
-RESULT_PATH = './models/2019_11_16_00/'
+RESULT_PATH = './models/2019_11_16_16/'
 
 TRAIN_LOSS_PATH = RESULT_PATH + 'train_loss.npy'
 TEST_LOSS_PATH = RESULT_PATH + 'test_loss.npy'
@@ -33,7 +33,7 @@ plt.savefig('./loss.jpg')
 
 
 
-RESULT_PATH = './models/2019_11_16_08/'
+RESULT_PATH = './models/2019_11_16_16/'
 
 TRAIN_LOSS_PATH = RESULT_PATH + 'train_accuracy.npy'
 TEST_LOSS_PATH = RESULT_PATH + 'test_accuracy.npy'

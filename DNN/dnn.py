@@ -11,7 +11,7 @@ parser.add_argument('--gpu_ids',default='0', type=str,help='gpu_ids: e.g. 0  0,1
 parser.add_argument('--data_dir',default='../data/market/pytorch',type=str, help='training dir path')
 parser.add_argument('--test_dir',default='../data/duke/pytorch',type=str, help='./test_data')
 
-parser.add_argument('--model_dir',default='./models/2019_11_16_13/model_epoch_19.pkl',type=str, help='./model_data')
+parser.add_argument('--model_dir',default='./models/2019_11_16_16/model_epoch_13.pkl',type=str, help='./model_data')
 parser.add_argument('--train_on_save', default= False, action='store_true', help='use saved model training data' )
 
 parser.add_argument('--convert_y', default=False, action='store_true', help='use converted Y' )
@@ -41,5 +41,5 @@ if __name__ == "__main__":
     with open(file_name, 'a+') as fp:
         yaml.dump(vars(opt), fp, default_flow_style=False)
 
-    train(opt)
-    #test(opt)
+    #train(opt)
+    test(opt)

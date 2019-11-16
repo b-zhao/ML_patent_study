@@ -10,15 +10,15 @@ class Net(torch.nn.Module):
 
         self.hidden = nn.Linear(n_feature, n_hidden)
         self.sigmoid = torch.sigmoid
-        self.predict1 = nn.Linear(n_hidden, n_output)
-        #self.predict2 = nn.Linear(n_hidden, n_output)
+        self.predict1 = nn.Linear(n_hidden, n_hidden)
+        self.predict2 = nn.Linear(n_hidden, n_output)
 
     def forward(self, x):
         x = self.hidden(x)
         x = self.sigmoid(x)
         x = self.predict1(x)
-        #x = self.sigmoid(x)
-        #x=  self.predict2(x)
+        x = self.sigmoid(x)
+        x=  self.predict2(x)
         return x
 
 
