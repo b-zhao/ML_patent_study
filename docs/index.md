@@ -1,6 +1,24 @@
-Report
+# ML Patent Study
 
-Data Preprocessing
+## Introduction/Background
+
+Analyzing intellectual property data using machine learning methods are gaining popularity in recent years. Trends and relationships in patent databases are mined and applied to knowledge management, technology management, economic value, and extraction and management of information [1]. 
+
+Our objective is to build a model that will take in information of a patent (filing date, inventor’s country, team size, category, etc.), and predict its granting time. This model will complement Dr. Ramachandran’s study on grants delay’s effect on inventors’ motivations. Previous works [3][4] mainly used statistics and data science methods such as time series analysis, entity recognition, and relation extraction. We hope to analyze the pattern on the dataset and improve the prediction quality by applying deep neural networks. 
+
+
+
+## Methods
+
+### Unsupervised
+
+### Supervised
+
+
+
+## Data Preparation
+
+Our project will analyze the USPTO dataset containing filed patents over 25 years.
 
 The sample dataset contains 53 features for each patent and the full dataset contains 63 features. These features include author, team size, country of inventor, category of patent, etc.  In the preprocessing step, our aim is to remove redundancies, transform various data types to processable numbers and save them into matrices. Details about how we deal with each features are in the Data Preprocessing.pdf.
 
@@ -8,9 +26,12 @@ For example, we deleted features where over 40% were NAN values. For company nam
 
 ![alt text](https://github.com/b-zhao/ML_patent_study/blob/master/docs/dp1.png)
 
-The granting time is approval date minus application date. We save granting time in both days (for regression) and years (for classification).
+The granting time is approval date minus application date. We save granting time in both days (for regression) and years (for classification). 
 
-LDA Analysis
+
+## Result
+
+### LDA Analysis
 
 Firstly, we tried to test the correlation between the granting time and the features that we used. Since the Linear discriminant analysis (LDA) does quite well in finding the linear combination of features to model the difference between different classes, we applied the LDA to our data and made a 2D plot for the first two components of LDA.
 
@@ -35,3 +56,10 @@ From the results, we can see that samples of shorter and longer granting time ar
 Besides, we tried to test if a non-linear combination of features can explain the granting time. We applied TSNE on 1000 samples and made 2D plot of first two components. The result is still not ideal.
 
 ![alt text](https://github.com/b-zhao/ML_patent_study/blob/master/docs/dp4.png)
+
+
+
+
+## Discussion
+
+## Conclusion
