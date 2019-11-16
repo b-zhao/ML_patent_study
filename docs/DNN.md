@@ -7,7 +7,7 @@ In order to further improve the prediction performance, we developed a deep lear
 ##Result 
 Two curves are plotted on the change of loss on both train set and validation set. Besides, in the experiment, we regulared that a prediction is a good prediction if the absolute error is within half year (180 days). The curves for prediction accuracy changes during training are also plotted. 
 
-![MSE Loss Change Curve](img/dnn/loss%20-%201.jpg "Loss Change Curve") ![Accuracy Change Curve](img/dnn/accuracy.jpg "Accuracy Curve")
+![MSE Loss Change Curve](img/dnn/loss%20-%201.jpg "Loss Change Curve") ![Accuracy Change Curve](img/dnn/accuracy%20-%201.jpg "Accuracy Curve")
 
 We found that with our experiment setting, the model will converge at around 10th epoch. Overfitting may occur with further training. Therefore, we take the model trained after 10th epoch for testing. In the test, we mainly evaluate three criterias: Mean Square Root Error, Absolute Error, and Accuracy. The result is shown below. Besides, we also plot curves of ground truth and prediction results of first 25 samples in test set. 
 
