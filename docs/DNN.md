@@ -25,12 +25,16 @@ We also modified our hyper - parameters with more experiments. Overall, we made 
 |1|2|128|Sigmoid|358.96|241.25|0.5119|
 |2|2|512|Sigmoid|358.14|241.13|0.5111|
 |3|2|512|ReLU|362.54|249.89|0.4809|
-|4|0|N/A|N/A|xx|xx|xx|
+|4|0(Linear Regression)|N/A|N/A|xx|xx|xx|
 |5|1|128|Sigmoid|xx|xx|xx|
 
 Overall, the best result achieved with DNN is from experiment x, which achieves the RMSE at xxx.
 
- 
+ ## Result On Fine-Tuned Dataset
+With Isolated Forest Algorithm, we remove some outlier samples in the train dataset. With the fine-tuned dataset, we trained a new deep model. The parameter setting and result are shown below: 
 
+| Number Of Hidden Layers | Number of Nodes in Hidden Layers | Activation Function | RMSE | Absolute Error | Accuracy |
+|--|--|--|--|--|--|
+|2|128|Sigmoid|358.96|241.25|0.5119|
 
 

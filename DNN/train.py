@@ -42,7 +42,7 @@ def train(opt):
     if opt.convert_y:
         xtrain, ytrain, xtest, ytest = load_data_with_convert_Y()
     else:
-        xtrain, ytrain, xtest, ytest = load_data_train()
+        xtrain, ytrain, xtest, ytest = load_data_train(opt.with_if)
 
     if opt.PCA:
         pca = PCA(n_components=50)

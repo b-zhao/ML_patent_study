@@ -44,7 +44,7 @@ def test(opt):
         torch.cuda.set_device(gpu_ids[0])
         cudnn.benchmark = True
 
-    xtest, ytest = load_data_test()
+    xtest, ytest = load_data_test(opt.with_if)
 
     datasets = {}
     datasets['test'] = PatentDataset(xtest, ytest)

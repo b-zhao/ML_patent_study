@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 from sklearn.ensemble import IsolationForest as IF
+from sklearn.model_selection import train_test_split
 
 class IsolationForest:
     def __init__(self, fileNameX = 'data_preparation/X.npy', fileNameY = 'data_preparation/Y.npy', trainSubset = 50, trainCount  = 10, threshold = 0.6, columnStart = 0, columnEnd = 13):
@@ -16,7 +17,10 @@ class IsolationForest:
         self.threshold   = threshold
         self.columnStart = columnStart
         self.columnEnd   = columnEnd
-        self.train()
+        self.inlier_X = []
+        self.inlier_y = []
+        self.outlier_X = []
+        self.outlier_y = []
 
     def train(self):
         XwithoutDummy = self.X[:, self.columnStart:self.columnEnd] 
@@ -50,4 +54,19 @@ class IsolationForest:
     def getOutlierY(self):
         return self.outlier_y
 
-    
+
+def remove_outlier_with_IF():
+    temp = IsolationForest()
+    temp.train()
+    X = temp.getInlierX()
+    Y = temp.getInlierY()
+    x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
+
+    # save dataset to data_preparation
+    ROOT_PATH = 'data_preparation/'
+    np.save(ROOT_PATH + 'X_IF_train.npy', x_train)
+    np.save(ROOT_PATH + 'X_IF_test.npy', x_test)
+    np.save(ROOT_PATH + 'Y_IF_train.npy', y_train)
+    np.save(ROOT_PATH + 'Y_IF_test.npy', y_test)
+
+remove_outlier_with_IF()
