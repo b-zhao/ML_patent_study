@@ -24,7 +24,6 @@ class IsolationForest:
         for i in range(self.trainCount):
             print('select a random subset of entries as training data for the', i + 1, 'time')   
             testX = XwithoutDummy[np.random.choice(self.X.shape[0], self.trainSubset, replace=False), :]
-            print('Start training isolation forest')
             clf = IF(behaviour='new', contamination='auto')
             clf.fit(testX)
             pred = clf.predict(XwithoutDummy)
