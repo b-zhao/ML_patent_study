@@ -1,24 +1,18 @@
-# ML Patent Study
+## Introduction
 
-## Introduction/Background
+Analyzing intellectual property data using machine learning techniques is gaining popularity in recent years. Trends and relationships in patent databases are mined and applied to knowledge management, technology management, economic development estimation, as well as extraction and management of information [1].
 
-Analyzing intellectual property data using machine learning methods are gaining popularity in recent years. Trends and relationships in patent databases are mined and applied to knowledge management, technology management, economic development estimation, as well as extraction and management of information [1].
+Our objective is to build a model that will take in information of a patent (filing date, inventor’s country, team size, category, etc.) and predict the length of the time interval between filing and granting (grant time). Previous works [2][3] on patent analysis have used statistics and data science methods such as time series analysis, entity recognition, and relation extraction. We hope to analyze how grant time depends on various aspects of a patent, and then improve the prediction quality using deep neural networks.
 
-Our objective is to build a model that will take in information of a patent (filing date, inventor’s country, team size, category, etc.), and predict its granting time. This model will complement Dr. Ramachandran’s study on how grants delays affect inventors’ motivations. Previous works [2][3] mainly used statistics and data science methods such as time series analysis, entity recognition, and relation extraction. We hope to analyze the pattern on the dataset, and then improve the prediction quality by applying deep neural networks. 
+This work will complement Dr. Ramachandran’s study on how grants delays affect inventors’ motivations [4]. By predicting the grant time in advance, managers can have a better understanding of the productivity and portfolio diversification effort of the inventors in the future. The grant time prediction can also help companies in making policies for the next steps in developing the patented product. 
 
 
 
 ## Methods
 
-### Unsupervised
+### Data Preparation
 
-### Supervised
-
-
-
-## Data Preparation
-
-Our project will analyze the USPTO dataset containing filed patents over 25 years.
+The dataset we use is from the United States Patent and Trademark Office (USPTO) and contains filed patents over the past 50 years.
 
 The sample dataset contains 53 features for each patent and the full dataset contains 63 features. These features include author, team size, country of inventor, category of patent, etc.  In the preprocessing step, our aim is to remove redundancies, transform various data types to processable numbers and save them into matrices. Details about how we deal with each features are in the Data Preprocessing.pdf.
 
@@ -27,6 +21,12 @@ For example, we deleted features where over 40% were NAN values. For company nam
 ![alt text](img/dp1.png)
 
 The granting time is approval date minus application date. We save granting time in both days (for regression) and years (for classification). 
+
+
+### Unsupervised
+
+### Supervised
+
 
 
 ## Result
@@ -65,11 +65,12 @@ Besides, we tried to test if a non-linear combination of features can explain th
 ## Conclusion
 
 ## Reference
-[1]: Aristodemou, Leonidas, Frank Tietze, “The state-of-the-art on Intellectual Property Analytics (IPA): A literature review on artificial intelligence, machine learning and deep learning methods for analysing intellectual property (IP) data.” World Patent Information, 37-51, Vol. 55 (2018).
+[1] Aristodemou, Leonidas, Frank Tietze, “The state-of-the-art on Intellectual Property Analytics (IPA): A literature review on artificial intelligence, machine learning and deep learning methods for analysing intellectual property (IP) data.” World Patent Information, 37-51, 55 (2018).
 
-[2] C. Lee, J. Kim, O. Kwon, H.-G. Woo, “Stochastic technology life cycle analysis using multiple patent indicators, Technol. Forecast.” Soc. Change 106 (2016) 53–64.
+[2] C. Lee, J. Kim, O. Kwon, H.-G. Woo, “Stochastic technology life cycle analysis using multiple patent indicators, Technol. Forecast.” Soc. Change 53–64, 106 (2016).
 
-[3] H.-W. Chun, J.-M. Lee, W. Yeo, S. Kim, H.-S. Yoon, I. Song, S.-W. Hong, B.-Y. Coh, “Detection of technology opportunities from patents.” Int. J. Appl. Eng. Res. 9 (21)  (2014) 8731–8736.
+[3] H.-W. Chun, J.-M. Lee, W. Yeo, S. Kim, H.-S. Yoon, I. Song, S.-W. Hong, B.-Y. Coh, “Detection of technology opportunities from patents.” Int. J. Appl. Eng. Res. 9, 21, 8731–8736 (2014).
 
+[4] Chhabra, Param Pal singh, Manpreet Hora, Karthik Ramachandran, “Patent Grant Delays and Future Innovative Activities.” Academy of Management Proceedings 16192, 1 (2019).
 
 
