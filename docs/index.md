@@ -2,9 +2,9 @@
 
 ## Introduction/Background
 
-Analyzing intellectual property data using machine learning methods are gaining popularity in recent years. Trends and relationships in patent databases are mined and applied to knowledge management, technology management, economic value, and extraction and management of information [1]. 
+Analyzing intellectual property data using machine learning methods are gaining popularity in recent years. Trends and relationships in patent databases are mined and applied to knowledge management, technology management, economic development estimation, as well as extraction and management of information [1].
 
-Our objective is to build a model that will take in information of a patent (filing date, inventor’s country, team size, category, etc.), and predict its granting time. This model will complement Dr. Ramachandran’s study on grants delay’s effect on inventors’ motivations. Previous works [3][4] mainly used statistics and data science methods such as time series analysis, entity recognition, and relation extraction. We hope to analyze the pattern on the dataset and improve the prediction quality by applying deep neural networks. 
+Our objective is to build a model that will take in information of a patent (filing date, inventor’s country, team size, category, etc.), and predict its granting time. This model will complement Dr. Ramachandran’s study on how grants delays affect inventors’ motivations. Previous works [2][3] mainly used statistics and data science methods such as time series analysis, entity recognition, and relation extraction. We hope to analyze the pattern on the dataset, and then improve the prediction quality by applying deep neural networks. 
 
 
 
@@ -63,3 +63,13 @@ Besides, we tried to test if a non-linear combination of features can explain th
 ## Discussion
 
 ## Conclusion
+
+## Reference
+[1]: Aristodemou, Leonidas, Frank Tietze, “The state-of-the-art on Intellectual Property Analytics (IPA): A literature review on artificial intelligence, machine learning and deep learning methods for analysing intellectual property (IP) data.” World Patent Information, 37-51, Vol. 55 (2018).
+
+[2] C. Lee, J. Kim, O. Kwon, H.-G. Woo, “Stochastic technology life cycle analysis using multiple patent indicators, Technol. Forecast.” Soc. Change 106 (2016) 53–64.
+
+[3] H.-W. Chun, J.-M. Lee, W. Yeo, S. Kim, H.-S. Yoon, I. Song, S.-W. Hong, B.-Y. Coh, “Detection of technology opportunities from patents.” Int. J. Appl. Eng. Res. 9 (21)  (2014) 8731–8736.
+
+
+
