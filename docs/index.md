@@ -4,7 +4,7 @@ Analyzing intellectual property data using machine learning techniques is gainin
 
 Our objective is to build a model that will take in information of a patent (filing date, inventor’s country, team size, category, etc.) and predict the length of the time interval between filing and granting (grant time). Previous works [2][3] on patent analysis have used statistics and data science methods such as time series analysis, entity recognition, and relation extraction. We hope to analyze how grant time depends on various aspects of a patent, and then improve the prediction quality using deep neural networks.
 
-This work will complement Dr. Ramachandran’s study on how grants delays affect inventors’ motivations [4]. By predicting the grant time in advance, managers can have a better understanding of the productivity and portfolio diversification effort of the inventors in the future. The grant time prediction can also help companies in making policies for the next steps in developing the patented product. 
+This work will complement Dr. Ramachandran group's study on how grant delays affect inventors’ motivations [4]. It has been shown that patent grant delays is associated with decreasing future patenting activities. By predicting the grant time in advance, managers can have a better understanding of the productivity of the inventors in the future and adjust plans accordingly. The grant time prediction can also help companies in preparing for the next steps in developing the patented product. 
 
 
 
@@ -12,20 +12,32 @@ This work will complement Dr. Ramachandran’s study on how grants delays affect
 
 ### Data Preparation
 
-The dataset we use is from the United States Patent and Trademark Office (USPTO) and contains filed patents over the past 50 years.
+The data we use is from the United States Patent and Trademark Office (USPTO) and contains 1048575 patents filed over the past 50 years. The dataset contains 63 features for each patent, including inventors, team size, country of inventor, category of patent, etc. 
 
-The sample dataset contains 53 features for each patent and the full dataset contains 63 features. These features include author, team size, country of inventor, category of patent, etc.  In the preprocessing step, our aim is to remove redundancies, transform various data types to processable numbers and save them into matrices. Details about how we deal with each features are in the Data Preprocessing.pdf.
+Preprocessing:
+* Remove redundant columns
+  * Application year (we already have application date), etc.
+* Remove features if majority of rows have empty value
+* Transform various data types to processable number (int/float)
+  * Applicaiton date, grant date, etc.
+  * "1-Team" -> "1"
+* Convert categorical features to one-hot representation
+  * Class, subclass, etc.
+* Normalize numerical features
 
-For example, we deleted features where over 40% were NAN values. For company names and author names, we assign them to unique indices, respectively. The figure below shows the processing of the first 20 features.
+
+Details about each feature are available upon request. As an example, the figure below shows the processing of the first 20 features.
 
 ![alt text](img/dp1.png)
 
-The granting time is approval date minus application date. We save granting time in both days (for regression) and years (for classification). 
+The input of our prediction models are the pre-processed features. The variable we aim to predict is the grant time (approval date minus application date). We save the grant time in both days (for regression) and years (for classification). 
 
+### Linear Discriminant Analysis (LDA)
 
-### Unsupervised
+### Deep Neural Networks (DNN)
 
-### Supervised
+### Isolation Forest
+
 
 
 
@@ -62,7 +74,13 @@ Besides, we tried to test if a non-linear combination of features can explain th
 
 ## Discussion
 
+
+
+
 ## Conclusion
+
+
+
 
 ## Reference
 [1] Aristodemou, Leonidas, Frank Tietze, “The state-of-the-art on Intellectual Property Analytics (IPA): A literature review on artificial intelligence, machine learning and deep learning methods for analysing intellectual property (IP) data.” World Patent Information, 37-51, 55 (2018).
