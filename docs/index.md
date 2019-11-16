@@ -1,4 +1,7 @@
 Report
+
+Data Preprocessing
+
 The sample dataset contains 53 features for each patent and the full dataset contains 63 features. These features include author, team size, country of inventor, category of patent, etc.  In the preprocessing step, our aim is to remove redundancies, transform various data types to processable numbers and save them into matrices. Details about how we deal with each features are in the Data Preprocessing.pdf.
 
 For example, we deleted features where over 40% were NAN values. For company names and author names, we assign them to unique indices, respectively. The figure below shows the processing of the first 20 features.
@@ -6,6 +9,8 @@ For example, we deleted features where over 40% were NAN values. For company nam
 ![alt text](https://github.com/b-zhao/ML_patent_study/blob/master/docs/dp1.png)
 
 The granting time is approval date minus application date. We save granting time in both days (for regression) and years (for classification).
+
+LDA Analysis
 
 Firstly, we tried to test the correlation between the granting time and the features that we used. Since the Linear discriminant analysis (LDA) does quite well in finding the linear combination of features to model the difference between different classes, we applied the LDA to our data and made a 2D plot for the first two components of LDA.
 
