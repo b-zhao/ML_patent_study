@@ -31,7 +31,7 @@ We also modified our hyper - parameters with more experiments. Overall, we made 
 Overall, the best result achieved with DNN is from experiment x, which achieves the RMSE at xxx.
 
  ## Result On Fine-Tuned Dataset
-With Isolated Forest Algorithm, we remove some outlier samples in the train dataset. With the fine-tuned dataset, we trained a new deep model. The parameter setting and result are shown below: 
+With Isolation Forest Algorithm, we remove some outlier samples in the train dataset. With the fine-tuned dataset, we trained a new deep model. The parameter setting and result are shown below: 
 
 
 | Number Of Hidden Layers | Number of Nodes in Hidden Layers | Activation Function | RMSE | Absolute Error | Accuracy |
