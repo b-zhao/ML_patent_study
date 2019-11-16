@@ -38,7 +38,7 @@ With Isolated Forest Algorithm, we remove some outlier samples in the train data
 |--|--|--|--|--|--|
 |2|128|Sigmoid|339.58|224.41|0.5437|
 
-
+Obviously, removing outlier in training dataset have a great improvement on the result of deep neural network model in all three criterias. 
 
 
 
