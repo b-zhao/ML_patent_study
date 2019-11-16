@@ -22,7 +22,7 @@ parser.add_argument('--batchsize', default=128, type=int, help='batchsize')
 parser.add_argument('--stride', default=2, type=int, help='stride')
 parser.add_argument('--erasing_p', default=0, type=float, help='Random Erasing probability, in [0,1]')
 
-parser.add_argument('--lr', default=0.005, type=float, help='learning rate')
+parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
 parser.add_argument('--epoch', default=20, type=int, help='training epoch')
 
 parser.add_argument('--droprate', default=0.5, type=float, help='drop rate')
