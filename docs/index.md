@@ -23,7 +23,7 @@ Preprocessing:
 
 After preprocessing, we obtained 559 features. Below is a plot that shows the absolute value of correlation between each feature and grant time. A few features are strongly correlated with the grant time, and most features are somewhat correlated. Examples of high correlations: TEAM (0.244), NBCITE (0.166), CATEGORY_Computers and Electronics (0.131), INVCOUNTRY_JP (0.122)
 
-![alt text](img/correlation.png)
+![alt text](img/correlation.svg)
 
 The input of our prediction models are the 559 pre-processed features. The variable we aim to predict is the grant time. Grant time is calculated as (approval date - application date), and has unit of both days (for regression) and years (for classification). 
 
