@@ -6,11 +6,7 @@ Our objective is to build a model that will take in information of a patent (fil
 
 This work will complement Dr. Ramachandran group's study on how grant delays affect inventors’ motivations [4]. It has been shown that patent grant delays is associated with decreasing future patenting activities. By predicting the grant time in advance, managers can have a better understanding of the productivity of the inventors in the future and adjust plans accordingly. The grant time prediction can also help companies in preparing for the next steps in developing the patented product. 
 
-
-
-## Methods
-
-### Data Preparation
+## Data Preparation
 
 The data we use is from the United States Patent and Trademark Office (USPTO) and contains 1048575 patents filed over the past 50 years. The dataset contains 63 features for each patent, including inventors, team size, country of inventor, category of patent, etc. 
 
@@ -32,49 +28,7 @@ Details about each feature are available upon request. As an example, the figure
 
 The input of our prediction models are the pre-processed features. The variable we aim to predict is the grant time (approval date minus application date). We save the grant time in both days (for regression) and years (for classification). 
 
-### Linear Discriminant Analysis (LDA)
-
-### Deep Neural Networks (DNN)
-
-### Isolation Forest
-We use isolation forests to filter out outliers when training our model to improve accuracy. Isolation forest is an unsupervised learning algorithm that is used to differentiate outliers and inliers. It is based on the assumption that outliers tend to deviate from average and are less in terms of quantity. 
-
-Each isolation tree works quite similar to a binary space partition tree. Every partition just adds a line to divided up space between two random data points until the desired partition count is met.  The outliers reside in the region that can be isolated with fewer lines. For example, the data point marked by the red arrow can be separate using only two horizontal lines and one vertical line. 
-
-
-![alt text](img/IsolationTree.png)
-Thus, if we compare the result between error between inlier data and all the data. We could see some accuracy improvement. Here is the result comparison for SVM.
-
-
-|Avg Error | Avg Error For Inlier data  | RMSE | RMSE for Inlier Data |
-|--|--|--|--|
-|255.49|232.08|159327|138775|
-
-
-### Decision tree and Random forest
-We used decision tree regression and random forest regression to analyze the dataset. To improve the performance of our model, the following parameters were tuned through Grid-search: max_depth, min_samples_leaf, max_features for decision tree and n_estimators, max_depth, min_samples_leaf, max_features for random forest. Mean square error was used to evaluate the parameters. 
-
-According to Grid-search, the best parameters for decision tree is max_depth=10, max_features=1.0, min_samples_leaf=10.
-The best parameters for is n_estimators = 300, max_depth = 30, min_samples_leaf = 5, and max_features = 0.2.
-
-Random forest performed slightly better than decision tree:
-
-- The root mean square error of decision tree regression is 376.11.
-- The root mean square error of random forest regression is 367.50.
-
-Compare the true grant time and the predicted grant time of the first fifty data points:
-
-Decision tree:
-![alt text](img/dtr_50.png)
-
-Random forest:
-![alt text](img/rfr_50.png)
-
-
-
-## Result
-
-### LDA Analysis
+## Linear Discriminant Analysis (LDA)
 
 Firstly, we tried to test the correlation between the granting time and the features that we used. Since the Linear discriminant analysis (LDA) does quite well in finding the linear combination of features to model the difference between different classes, we applied the LDA to our data and made a 2D plot for the first two components of LDA.
 
@@ -99,6 +53,89 @@ From the results, we can see that samples of shorter and longer granting time ar
 Besides, we tried to test if a non-linear combination of features can explain the granting time. We applied TSNE on 1000 samples and made 2D plot of first two components. The result is still not ideal.
 
 ![alt text](img/dp4.png)
+
+
+
+## Decision tree and Random forest
+We used decision tree regression and random forest regression to analyze the dataset. To improve the performance of our model, the following parameters were tuned through Grid-search: max_depth, min_samples_leaf, max_features for decision tree and n_estimators, max_depth, min_samples_leaf, max_features for random forest. Mean square error was used to evaluate the parameters. 
+
+According to Grid-search, the best parameters for decision tree is max_depth=10, max_features=1.0, min_samples_leaf=10.
+The best parameters for is n_estimators = 300, max_depth = 30, min_samples_leaf = 5, and max_features = 0.2.
+
+Random forest performed slightly better than decision tree:
+
+- The root mean square error of decision tree regression is 376.11.
+- The root mean square error of random forest regression is 367.50.
+
+Compare the true grant time and the predicted grant time of the first fifty data points:
+
+Decision tree:
+![alt text](img/dtr_50.png)
+
+Random forest:
+![alt text](img/rfr_50.png)
+
+## Isolation Forest
+We use isolation forests to filter out outliers when training our model to improve accuracy. Isolation forest is an unsupervised learning algorithm that is used to differentiate outliers and inliers. It is based on the assumption that outliers tend to deviate from average and are less in terms of quantity. 
+
+Each isolation tree works quite similar to a binary space partition tree. Every partition just adds a line to divided up space between two random data points until the desired partition count is met.  The outliers reside in the region that can be isolated with fewer lines. For example, the data point marked by the red arrow can be separate using only two horizontal lines and one vertical line. 
+
+
+![alt text](img/IsolationTree.png)
+Thus, if we compare the result between error between inlier data and all the data. We could see some accuracy improvement. Here is the result comparison for SVM.
+
+
+|Avg Error | Avg Error For Inlier data  | RMSE | RMSE for Inlier Data |
+|--|--|--|--|
+|255.49|232.08|159327|138775|
+
+
+## Deep Neural Networks (DNN)
+
+### Description
+In order to further improve the prediction performance, we developed a deep learning algorithm to perform regression task on the save training data. As the figure below shows, the model is made up with two hidden layers and one output layer. As our initial design, both hidden layers have 128 nodes with sigmoid activate function. The output layer has only one node, which denotes the predicted granted days for the input patent. During the training, to optimize the performance, we set the learning rate to 0.0005 and batch size to 128. Besides, we use Mean Square Root Error as the loss function. To avoid overfitting and boost training speed, we adopt adam optimizer in our training stage. In term of data, the pre-processed data is divided into 3 parts: train, validation and test. The ratio for three parts are 0.56, 0.14 and 0.2. The model is trained with train set, and validated with validation set during training. The Final result is tested on the test set. 
+
+![DNN Model](img/dnn/Model.png "DNN Model")
+
+###Result 
+Two curves are plotted on the change of loss on both train set and validation set. Besides, in the experiment, we regulared that a prediction is a good prediction if the absolute error is within half year (180 days). The curves for prediction accuracy changes during training are also plotted. 
+
+![MSE Loss Change Curve](img/dnn/loss%20-%201.jpg "Loss Change Curve") ![Accuracy Change Curve](img/dnn/accuracy%20-%201.jpg "Accuracy Curve")
+
+We found that with our experiment setting, the model will converge at around 10th epoch. Overfitting may occur with further training. Therefore, we take the model trained after 10th epoch for testing. In the test, we mainly evaluate three criterias: Mean Square Root Error, Absolute Error, and Accuracy. The result is shown below. Besides, we also plot curves of ground truth and prediction results of first 25 samples in test set. 
+
+| Number Of Hidden Layers | Number of Nodes in Hidden Layers | Activation Function | RMSE | Absolute Error | Accuracy |
+|--|--|--|--|--|--|
+|2|128|Sigmoid|358.96|241.25|0.5119|
+
+![Test Sample Output](img/dnn/sample%20-%201.jpg)
+ 
+We also modified our hyper - parameters with more experiments. Overall, we made attempts on changing the model structure and use ReLU as activation function instead of sigmoid. All parameter sets and results are shown in the table below.
+
+   
+|Index| Number Of Hidden Layers | Number of Nodes in Hidden Layers | Activation Function | RMSE | Absolute Error | Accuracy |
+|--|--|--|--|--|--|--|
+|1|2|128|Sigmoid|358.96|241.25|0.5119|
+|2|2|512|Sigmoid|358.14|241.13|0.5111|
+|3|2|512|ReLU|362.54|249.89|0.4809|
+|4|0(Linear Regression)|N/A|N/A|379.8|258.7|0.472|
+|5|1|128|Sigmoid|358.94|244.2|0.4985|
+
+Overall, the best result achieved with DNN is from experiment x, which achieves the RMSE at xxx.
+
+### Result On Fine-Tuned Dataset
+With Isolation Forest Algorithm, we remove some outlier samples in the train dataset. With the fine-tuned dataset, we trained a new deep model. The parameter setting and result are shown below: 
+
+
+| Number Of Hidden Layers | Number of Nodes in Hidden Layers | Activation Function | RMSE | Absolute Error | Accuracy |
+|--|--|--|--|--|--|
+|2|128|Sigmoid|339.58|224.41|0.5437|
+
+Obviously, removing outlier in training dataset have a great improvement on the result of deep neural network model in all three criterias. 
+
+
+
+
 
 
 
