@@ -37,9 +37,10 @@ The input of our prediction models are the pre-processed features. The variable 
 ### Deep Neural Networks (DNN)
 
 ### Isolation Forest
-We use isolation forests to filter out outliers when training our model. Isolation forest is an unsupervised learning algorithm that is used to differentiate outliers and inliers. It is based on the assumption that outliers tend to deviate from average and are less in terms of quantity.
+We use isolation forests to filter out outliers when training our model to improve accuracy. Isolation forest is an unsupervised learning algorithm that is used to differentiate outliers and inliers. It is based on the assumption that outliers tend to deviate from average and are less in terms of quantity. 
 
-Each isolation tree works quite similar to a binary space partition tree. The outliers reside in the region that can be isolated with fewer lines.
+Each isolation tree works quite similar to a binary space partition tree. Every partition just adds a line to divided up space between two random data points until the desired partition count is met.  The outliers reside in the region that can be isolated with fewer lines. For example, the data point marked by the red arrow can be separate using only two horizontal lines and one vertical line. 
+
 
 ![alt text](img/IsolationTree.png)
 Thus, if we compare the result between error between inlier data and all the data. We could see some accuracy improvement. Here is the result comparison for SVM.
