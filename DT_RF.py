@@ -3,10 +3,12 @@ import numpy as np
 import os
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import GridSearchCV
 
 data = pd.read_stata('../Database_Patents_MLClass_Sample_Sep2019.dta')
 
@@ -77,9 +79,56 @@ idx = np.nonzero(idx - 1)
 X_test = X_test.iloc[idx]
 y_test = y_test.iloc[idx]
 
-rfr = RandomForestRegressor(n_estimators=250, max_depth=30, max_features=0.2, min_samples_leaf=5, oob_score=True)
-rfr.fit(X_train, y_train)
-y_pred = rfr.predict(X_test)
+# grid search to tune decision tree parameters
+gsc_dt = GridSearchCV(
+        estimator=DecisionTreeRegressor(),
+        param_grid={
+            'max_depth': [10, 30, 50],
+            'min_samples_leaf': [5, 10, 20],
+            'max_features': [0.2, 0.5, 1.0]
+        },
+        cv=5, scoring='neg_mean_squared_error', verbose=0, n_jobs=-1)
+
+grid_result_dt = gsc_dt.fit(X_train, y_train)
+best_params_dt = grid_result_dt.best_params_
+best_dtr = DecisionTreeRegressor(max_depth=best_params_dt["max_depth"], min_samples_leaf=best_params_dt["min_samples_leaf"],
+                   max_features=best_params_dt["max_features"])
+best_dtr.fit(X_train, y_train)
+y_pred_dtr = best_dtr.predict(X_test)
+
+rmse_dtr = mean_squared_error(y_test, y_pred_dtr)**(0.5)
+print("Root Mean squared error: %.2f"
+      % rmse_dtr)
+print('Variance score: %.2f' % r2_score(y_test, y_pred_dtr))
+
+print("Actual grant time (days):")
+y_t = y_test.to_numpy().flatten().astype(int)[0:50]
+print(y_t)
+
+print("Predicted grant time (days):")
+y_p_dtr = y_pred_dtr[0:50].astype(int)
+print(y_p_dtr)
+
+# grid search to tune random forest parameters
+gsc = GridSearchCV(
+        estimator=RandomForestRegressor(oob_score=True, n_jobs=-1),
+        param_grid={
+            'n_estimators': [100, 150, 250, 300],
+            'max_depth': [10, 30, 50],
+            'min_samples_leaf': [5, 10, 20],
+            'max_features': [0.2, 0.5, 1.0]
+        },
+        cv=5, scoring='neg_mean_squared_error', verbose=0, n_jobs=-1)
+
+grid_result = gsc.fit(X_train, y_train)
+
+best_params = grid_result.best_params_
+best_rfr = RandomForestRegressor(n_estimators=best_params["n_estimators"], max_depth=best_params["max_depth"], min_samples_leaf=best_params["min_samples_leaf"],
+                   max_features=best_params["max_features"], 
+                   oob_score=True, n_jobs=-1)
+
+best_rfr.fit(X_train, y_train)
+y_pred = best_rfr.predict(X_test)
 
 print("Root Mean squared error: %.2f"
       % mean_squared_error(y_test, y_pred)**(0.5))
@@ -87,6 +136,6 @@ print('Variance score: %.2f' % r2_score(y_test, y_pred))
 
 
 print("Actual grant time (days):")
-print(y_test.to_numpy().flatten().astype(int)[0:20])
+print(y_test.to_numpy().flatten().astype(int)[0:50])
 print("Predicted grant time (days):")
-print(y_pred[0:20].astype(int))
+print(y_pred[0:50].astype(int))

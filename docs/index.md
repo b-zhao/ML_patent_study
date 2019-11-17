@@ -51,6 +51,26 @@ Thus, if we compare the result between error between inlier data and all the dat
 |255.49|232.08|159327|138775|
 
 
+### Decision tree and Random forest
+We used decision tree regression and random forest regression to analyze the dataset. To improve the performance of our model, the following parameters were tuned through Grid-search: max_depth, min_samples_leaf, max_features for decision tree and n_estimators, max_depth, min_samples_leaf, max_features for random forest. Mean square error was used to evaluate the parameters. 
+
+According to Grid-search, the best parameters for decision tree is max_depth=10, max_features=1.0, min_samples_leaf=10.
+The best parameters for is n_estimators = 300, max_depth = 30, min_samples_leaf = 5, and max_features = 0.2.
+
+Random forest performed slightly better than decision tree:
+
+The root mean square error of decision tree regression is 376.11.
+The root mean square error of random forest regression is 367.50.
+
+![alt text](img/dt_rf_rmse.png)
+
+Compare the true grant time and the predicted grant time of the first fifty data points:
+
+Decision tree
+![alt text](img/dtr_50.png)
+
+Random forest
+![alt text](img/rfr_50.png)
 
 
 
