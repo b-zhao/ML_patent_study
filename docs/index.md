@@ -142,9 +142,19 @@ Obviously, removing outlier in training dataset have a great improvement on the 
 ## Discussion
 ![Result](img/result.jpg)
 
+We used root mean square error (RMSE), which uses days as unit, to evaluate model performance.
 
+DNN performs best, followed by random forest, and SVM. Given the high dimensionality and possibly nonlinearity of our data, complex models are expected to perform better.
 
-## Conclusion
+Removing outliers in the training set using solation forest significantly improves SVM and DNN model performance. 
+
+Typical grant time is between 1 to 3 years, so the RMSE of all models are not ideal. Possible reasons: 
+1.	Our models do not incorporate the time series properties in the data.  
+      * A period of long grant times may follow by a period of short grant times
+2.	Other variables that are unaccounted for but have an effect on grant time
+      * Demographic information of inventors, macroeconomic conditions, political events
+
+Overall, our model can give a rough estimate of how long an inventor has to wait before their patent is granted. To improve the accuracy of this prediction, more information is needed, either from domain experts, or from a more comprehensive dataset that includes the socioeconomic backgrounds when each patent is filed. 
 
 
 
