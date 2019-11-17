@@ -8,7 +8,7 @@ This work will complement Dr. Ramachandran group's study on how grant delays aff
 
 ## Data Preparation
 
-The data we use is from the United States Patent and Trademark Office (USPTO) and contains 1048575 patents filed over the past 50 years. The dataset contains 63 features for each patent, including inventors, team size, country of inventor, category of patent, etc. 
+The data we use is from the United States Patent and Trademark Office (USPTO) and contains 1048575 patents filed over the past 50 years. The dataset contains 63 columns for each patent, including inventors, team size, country of inventor, category of patent, etc. 
 
 Preprocessing:
 * Remove redundant columns
@@ -21,12 +21,11 @@ Preprocessing:
   * Class, subclass, etc.
 * Normalize numerical features
 
+After preprocessing, we obtained 559 features. Below is a plot that shows the absolute value of correlation between each feature and grant time. A few features are strongly correlated with the grant time, and most features are somewhat correlated. Examples of high correlations: TEAM (0.244), NBCITE (0.166), CATEGORY_Computers and Electronics (0.131), INVCOUNTRY_JP (0.122)
 
-Details about each feature are available upon request. As an example, the figure below shows the processing of the first 20 features.
+![alt text](img/correlation.png)
 
-![alt text](img/dp1.png)
-
-The input of our prediction models are the pre-processed features. The variable we aim to predict is the grant time (approval date minus application date). We save the grant time in both days (for regression) and years (for classification). 
+The input of our prediction models are the 559 pre-processed features. The variable we aim to predict is the grant time. Grant time is calculated as (approval date - application date), and has unit of both days (for regression) and years (for classification). 
 
 ## Linear Discriminant Analysis (LDA)
 
