@@ -49,7 +49,7 @@ The lower figures uses granting years (1,2,…,6 years) as labels and the darker
 
 From the results, we can see that samples of shorter and longer granting time are separated after using LDA to some extent, though not that clearly. Especially for those samples in the middle, LDA did not bring an ideal classification. The reason may be that the correlation between features and grant time is not very strong, or that the relationship between them is more complicated (more than linearly) and therefore more sophisticated models are required to detect it.
 
-Besides, we tried to test if a non-linear combination of features can explain the granting time. We applied TSNE on 1000 samples and made 2D plot of first two components. The result is still not ideal.
+Besides, we tried to test if a non-linear combination of features can explain the granting time. We applied T-distributed Stochastic Neighbor Embedding (t-SNE) and made 2D plot of first two components. T-SNE is a nonlinear dimensionality reduction technique which embeds high-dimensional data in a low-dimensional space. Here, we visualized the two-dimensional space from applying t-SNE on 1000 samples. The result is still not ideal.
 
 ![TSNE Analysis](img/dp4.png)
 
