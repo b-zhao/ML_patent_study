@@ -75,7 +75,7 @@ Random forest:
 ![alt text](img/rfr_50.png)
 
 ## Isolation Forest
-We use isolation forests to filter out outliers when training our model to improve accuracy. Isolation forest is an unsupervised learning algorithm that is used to differentiate outliers and inliers. It is based on the assumption that outliers tend to deviate from average and are less in terms of quantity. 
+We use isolation forests [5] to filter out outliers when training our model to improve accuracy. Isolation forest is an unsupervised learning algorithm that is used to differentiate outliers and inliers. It is based on the assumption that outliers tend to deviate from average and are less in terms of quantity. 
 
 Each isolation tree works quite similar to a binary space partition tree. Every partition just adds a line to divided up space between two random data points until the desired partition count is met.  The outliers reside in the region that can be isolated with fewer lines. For example, the data point marked by the red arrow can be separate using only two horizontal lines and one vertical line. 
 
@@ -96,7 +96,7 @@ In order to further improve the prediction performance, we developed a deep lear
 
 ![DNN Model](img/dnn/Model.png "DNN Model")
 
-###Result 
+### Result 
 Two curves are plotted on the change of loss on both train set and validation set. Besides, in the experiment, we regulared that a prediction is a good prediction if the absolute error is within half year (180 days). The curves for prediction accuracy changes during training are also plotted. 
 
 ![MSE Loss Change Curve](img/dnn/loss%20-%201.jpg "Loss Change Curve") 
@@ -117,7 +117,7 @@ We also modified our hyper - parameters with more experiments. Overall, we made 
 |1|2|128|Sigmoid|358.96|241.25|0.5119|
 |2|2|512|Sigmoid|358.14|241.13|0.5111|
 |3|2|512|ReLU|362.54|249.89|0.4809|
-|4|0(Linear Regression)|N/A|N/A|379.8|258.7|0.472|
+|4|0 (Linear Regression)|N/A|N/A|379.8|258.7|0.472|
 |5|1|128|Sigmoid|358.94|244.2|0.4985|
 
 Overall, the best result achieved with DNN is from experiment 2, which achieves the RMSE at 358.14.
@@ -158,4 +158,4 @@ Obviously, removing outlier in training dataset have a great improvement on the 
 
 [4] Chhabra, Param Pal singh, Manpreet Hora, Karthik Ramachandran, “Patent Grant Delays and Future Innovative Activities.” Academy of Management Proceedings 16192, 1 (2019).
 
-
+[5] Liu, Fei Tony, Kai Ming Ting, Zhi-Hua Zhou, "Isolation Forest." In Proceedings of the 8th IEEE International Conference on Data Mining (ICDM’08). IEEE Computer Society Press, 413–422 (2008).
