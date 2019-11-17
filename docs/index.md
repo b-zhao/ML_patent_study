@@ -59,17 +59,15 @@ The best parameters for is n_estimators = 300, max_depth = 30, min_samples_leaf 
 
 Random forest performed slightly better than decision tree:
 
-The root mean square error of decision tree regression is 376.11.
-The root mean square error of random forest regression is 367.50.
-
-![alt text](img/dt_rf_rmse.png)
+- The root mean square error of decision tree regression is 376.11.
+- The root mean square error of random forest regression is 367.50.
 
 Compare the true grant time and the predicted grant time of the first fifty data points:
 
-Decision tree
+Decision tree:
 ![alt text](img/dtr_50.png)
 
-Random forest
+Random forest:
 ![alt text](img/rfr_50.png)
 
 
