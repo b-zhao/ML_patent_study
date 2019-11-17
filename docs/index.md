@@ -140,7 +140,7 @@ Obviously, removing outlier in training dataset have a great improvement on the 
 
 
 ## Discussion
-
+![Result](img/result.jpg)
 
 
 
