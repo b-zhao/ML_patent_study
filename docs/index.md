@@ -87,7 +87,7 @@ Thus, if we compare the result between error between inlier data and all the dat
 
 |Avg Error | Avg Error For Inlier data  | RMSE | RMSE for Inlier Data |
 |--|--|--|--|
-|255.49|232.08|159327|138775|
+|255.49|232.08|399.16|372.52|
 
 
 ## Deep Neural Networks (DNN)
