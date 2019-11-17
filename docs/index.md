@@ -121,7 +121,7 @@ We also modified our hyper - parameters with more experiments. Overall, we made 
 |4|0(Linear Regression)|N/A|N/A|379.8|258.7|0.472|
 |5|1|128|Sigmoid|358.94|244.2|0.4985|
 
-Overall, the best result achieved with DNN is from experiment x, which achieves the RMSE at xxx.
+Overall, the best result achieved with DNN is from experiment 2, which achieves the RMSE at 358.14.
 
 ### Result On Fine-Tuned Dataset
 With Isolation Forest Algorithm, we remove some outlier samples in the train dataset. With the fine-tuned dataset, we trained a new deep model. The parameter setting and result are shown below: 
