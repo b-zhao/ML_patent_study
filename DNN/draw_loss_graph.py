@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # plot loss curve
+
 RESULT_PATH = './models/2019_11_16_16/'
 
 TRAIN_LOSS_PATH = RESULT_PATH + 'train_loss.npy'
