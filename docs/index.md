@@ -8,7 +8,7 @@ This work will complement Dr. Ramachandran group's study on how grant delays aff
 
 ## Data Preparation
 
-The data we use is from the United States Patent and Trademark Office (USPTO) and contains 1048575 patents filed over the past 50 years. The dataset contains 63 columns for each patent, including inventors, team size, country of inventor, category of patent, etc. 
+The data we use is from the United States Patent and Trademark Office (USPTO) and contains 1048575 patents filed over the past 50 years. We obtained the dataset directly from Dr. Ramachandran's group. The dataset contains 63 columns for each patent, including inventors, team size, country of inventor, category of patent, etc. 
 
 Preprocessing:
 * Remove redundant columns
@@ -25,7 +25,7 @@ After preprocessing, we obtained 559 features. Below is a plot that shows the ab
 
 ![alt text](img/correlation.svg)
 
-The input of our prediction models are the 559 pre-processed features. The variable we aim to predict is the grant time. Grant time is calculated as (approval date - application date), and has unit of both days (for regression) and years (for classification). 
+The input of our prediction models are the 559 pre-processed features. The variable we aim to predict is the grant time. Grant time is calculated as (approval date - application date), and has unit of days (for regression). 
 
 ## Linear Discriminant Analysis (LDA)
 
@@ -68,10 +68,10 @@ Random forest performed slightly better than decision tree:
 
 Compare the true grant time and the predicted grant time of the first fifty data points:
 
-Decision tree:
+Decision tree: 
 ![alt text](img/dtr_50.png)
 
-Random forest:
+Random forest: 
 ![alt text](img/rfr_50.png)
 
 ## Isolation Forest
@@ -154,7 +154,7 @@ Typical grant time is between 1 to 3 years, so the RMSE of all models are not id
 2.	Other variables that are unaccounted for but have an effect on grant time
       * Demographic information of inventors, macroeconomic conditions, political events
 
-Overall, our model can give a rough estimate of how long an inventor has to wait before their patent is granted. To improve the accuracy of this prediction, more information is needed, either from domain experts, or from a more comprehensive dataset that includes the socioeconomic backgrounds when each patent is filed. 
+Overall, our model can give a rough estimate of how long an inventor has to wait before their patent is granted. To improve the accuracy of this prediction, more information is needed, either from domain experts, or from a more comprehensive dataset that includes the socioeconomic backgrounds when each patent is filed. We can also add time series analysis to further improve our model performance. 
 
 
 
